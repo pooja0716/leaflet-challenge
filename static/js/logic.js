@@ -1,3 +1,5 @@
+// API endpoint
+
 var earthquakeURL = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geojson";
 var platesURL = "https://raw.githubusercontent.com/fraxen/tectonicplates/master/GeoJSON/PB2002_boundaries.json"
 
@@ -37,7 +39,7 @@ function createFeatures(earthquakeData) {
             return new L.circle(latlng, {
                 radius: getRadius(feature.properties.mag),
                 fillcolor: getColor(feature.properties.mag),
-                fillOpacity: 0.75,
+                fillOpacity: 0.8,
                 stroke: true,
                 color: getColor(feature.properties.mag),
                 weight: 0.75
