@@ -9,6 +9,23 @@ d3.json(earthquakeURL, function(data)
 }
 )
 
+ // set color of earthquake based on magnitude
+
+ function getColor(d)
+ {
+     return d > 5 ? "purple" :
+     d > 4 ? "orange" :
+     d > 3 ? "gold" :
+     d > 2 ? "yellow" :
+     d > 1 ? "greenyellow" :
+             "red";
+ }
+ 
+ function getRadius(magnitude) {
+      return magnitude * 33000 ;
+ }
+ 
+ 
 function createFeatures(earthquakeData) {
     var EarthQuake = L.geoJson(earthquakeData, {
         onEachFeature: function(feature, layer) {
@@ -22,7 +39,7 @@ function createFeatures(earthquakeData) {
                 fillcolor: getColor(feature.properties.mag),
                 fillOpacity: 0.75,
                 stroke: true,
-                color: "yellow",
+                color: getColor(feature.properties.mag),
                 weight: 0.75
             })
         }
@@ -35,7 +52,7 @@ function createMap(EarthQuake) {
 
     // create the tile layer that will be a background of our map
     // Define grayMap
-    
+
  var graymap = L.tileLayer("https://api.mapbox.com/styles/v1/mapbox/light-v9/tiles/256/{z}/{x}/{y}?access_token={accessToken}", {
   attribution: "Map data &copy; <a href=\"https://www.openstreetmap.org/\">OpenStreetMap</a> contributors, <a href=\"https://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA</a>, Imagery © <a href=\"https://www.mapbox.com/\">Mapbox</a>",
   maxZoom: 18,
@@ -81,7 +98,7 @@ var satelliteMap = L.tileLayer("https://api.mapbox.com/styles/v1/mapbox/satellit
 
   // create overlapMaps object which will hold overlay map layer
 
-  var overlapMaps = {
+  var overlayMaps = {
        earthquakes: EarthQuake,
        "Fault Lines": tectonicplates
   }
@@ -106,7 +123,7 @@ var satelliteMap = L.tileLayer("https://api.mapbox.com/styles/v1/mapbox/satellit
 
   // now create control layer for base map and overlay map
 
-  L.control.layers(baseMap, overlapMaps, {
+  L.control.layers(baseMap, overlayMaps, {
       collapsed: false
   }).addTo(myMap)
 
@@ -136,20 +153,6 @@ var satelliteMap = L.tileLayer("https://api.mapbox.com/styles/v1/mapbox/satellit
 
   }
 
-  // set color of earthquake based on magnitude
-
-  function getColor(d)
-{
-    return d > 5 ? "purple" :
-    d > 4 ? "orange" :
-    d > 3 ? "gold" :
-    d > 2 ? "yellow" :
-    d > 1 ? "greenyellow" :
-            "red";
-}
-
-function getRadius(value) {
-     return value*33000
-}
+  
 
 
